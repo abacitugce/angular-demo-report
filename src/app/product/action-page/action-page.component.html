@@ -1,6 +1,6 @@
 <div class="toolbar" role="banner"></div>
 <div class="content" role="main">
-    <div class="card action-bar inside h-100">
+    <div class="card">
         <div class="card-header">
             <div class="card-container">
                 <button class="btn btn-success" (click)="onSubmit(form)" title="SAVE">
@@ -12,13 +12,13 @@
         <div class="card-body">
             <form name="form" #form="ngForm" (ngSubmit)="onSubmit(form)" (keyup.enter)="onSubmit(form)">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="id">ID <span class="symbol required"></span></label>
                         <input class="form-control auto-validate" id="id" name="id"
                             [ngClass]="{ 'is-invalid': submitted && form.controls.id.errors }" type="number" min="1"
                             max="999" [(ngModel)]="formModel.id" disabled="{{ editMode }}" required />
                     </div>
-                    <div class="col-md-6">
+                    <div class="form-group col-md-6">
                         <label for="title">Title </label>
                         <input class="form-control auto-validate" id="title" name="title"
                             [ngClass]="{ 'is-invalid': submitted && form.controls.title.errors }" type="text"

@@ -47,6 +47,6 @@
 <div class="card-body p-0 m-0">
   <ag-grid-angular style="width: 90%; height: 500px; margin-left: 5%;" class="ag-theme-alpine" [rowData]="rowData"
     [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [sideBar]="true" (gridReady)="onGridReady($event)"
-    (rowDoubleClicked)="onRowDoubleClicked($event, 'edit')" (selectionChanged)="onSelectionChanged()">
+    (rowDoubleClicked)="onRowDoubleClicked($event, 'edit')"  [getRowStyle]="getRowStyle" (selectionChanged)="onSelectionChanged()">
   </ag-grid-angular>
 </div>

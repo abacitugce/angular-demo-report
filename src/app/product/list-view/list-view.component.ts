@@ -11,9 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./list-view.component.scss']
 })
 export class ListViewComponent {
-      /**
-      * Ag grid için kolon tanımı oluşturma
-    */
+  /**
+  * Ag grid için kolon tanımı oluşturma
+*/
+  getRowStyle = (params: any) => {
+    console.log('params: ', params)
+    if (typeof params.data !== 'undefined' && params.data.price > 1000) {
+      return { 'background': '#ff0000' };
+    } else {
+      return { 'background': '#008000' };
+
+    }
+  };
   columnDefs: any[] = [
     {
       headerName: 'ID',
@@ -74,24 +83,44 @@ export class ListViewComponent {
       headerName: 'Category',
       field: 'category',
       filter: 'agTextColumnFilter',
+      cellRenderer: (data: any) => {
+        let tmp: string = '';
+        if (data?.value != undefined && data?.value != "") {
+          tmp = ' <img src="assets/img/icon.png" height="24" width="24" /> ';
+        }
+        return tmp;
+      },
       width: 175
     },
     {
       headerName: 'Thumbnail',
       field: 'thumbnail',
       filter: 'agTextColumnFilter',
+      cellRenderer: (data: any) => {
+        let tmp: string = '';
+        if (data?.value != undefined && data?.value != "") {
+          tmp = ' <img src="assets/img/technology.png" height="24" width="24" /> ';
+        }
+        return tmp;
+      },
       width: 175
     },
     {
       headerName: 'Images',
       field: 'images',
       filter: 'agTextColumnFilter',
+      cellRenderer: (data: any) => {
+        let tmp: string = '';
+        tmp = '<a href="' + data.value[0] + '" target="_blank">Product Link</a>';
+        console.log('tmp : ', tmp)
+        return tmp;
+      },
       width: 175
     },
   ];
-      /**
-      * Kolonlar için varsayılan özelliklerin belirlenmesi.
-    */
+  /**
+  * Kolonlar için varsayılan özelliklerin belirlenmesi.
+*/
   defaultColDef = {
     filter: true,
     flex: 1,
@@ -107,9 +136,9 @@ export class ListViewComponent {
   selectedNode: any[] = [];
 
   constructor(private productService: ProductService, private toastr: ToastrService, private router: Router,) { }
-    /**
-      * Gride verilecek verilerin apiden istekle alınması.
-    */
+  /**
+    * Gride verilecek verilerin apiden istekle alınması.
+  */
   public getDataForGrid() {
     this.productService.getUserList().subscribe(response => {
       this.rowData = response.products;
@@ -117,17 +146,17 @@ export class ListViewComponent {
       this.toastr.error(err.error.code + ' - ' + 'Failed', '');
     });
   }
-      /**
-      * Gridin hazırlanması.
-    */
+  /**
+  * Gridin hazırlanması.
+*/
   public onGridReady(params: any): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.getDataForGrid();
   }
-      /**
-      * Grid üzerinde çift tıklayarak güncelleme ekranına geçer.
-    */
+  /**
+  * Grid üzerinde çift tıklayarak güncelleme ekranına geçer.
+*/
   public onRowDoubleClicked(event: any, url: string): void {
     this.router.navigate([`${this.router.url}/${url}`], { queryParams: { id: event.data.id } });
   }
@@ -155,4 +184,5 @@ export class ListViewComponent {
       queryParams: o
     });
   }
+
 }
